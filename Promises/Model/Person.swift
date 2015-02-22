@@ -10,14 +10,15 @@ import Foundation
 import PromiseKit
 
 enum Gender : String {
-    case Male = "Male"
-    case Female = "Female"
+    case Male = "male"
+    case Female = "female"
     case Unknown = "unknown"
 }
 
 
-struct Person : JSONModelObject, Printable {
+struct Person : JSONModelObject {
     static var apiEndPoint: String { return "people" }
+    let resourceInfo: ResourceInfo
     
     let name: String
     let birth_year: Int?  // Relative to the Battle of Yavin (Star Wars episode IV: A New Hope)
@@ -33,7 +34,6 @@ struct Person : JSONModelObject, Printable {
     let starships: [ResourceFetcher<Starship>]
     let vehicles: [ResourceFetcher<Vehicle>]
 
-    let resourceInfo: ResourceInfo
     
     // TODO: Make this a failable initializer?
     init(dict: NSDictionary) {
@@ -48,7 +48,7 @@ struct Person : JSONModelObject, Printable {
             birth_year = birthStr.substringToIndex(end).toInt()
         }
         eye_color = dict["eye_color"] as String
-        gender = Gender(rawValue: dict["gender"] as String)
+        gender = Gender(rawValue: (dict["gender"] as String).lowercaseString)
         hair_color = dict["hair_color"] as String
         height = (dict["height"] as String).toInt()
         mass = (dict["mass"] as String).toInt()
@@ -61,6 +61,20 @@ struct Person : JSONModelObject, Printable {
         
         resourceInfo = ResourceInfo(dict: dict)
     }
-    
-    var description: String { return "<Person \"\(name)\" \(resourceInfo.url)>" }
+}
+
+extension Person : Printable {
+    var description: String {
+        var birth: String
+        switch birth_year {
+        case .None:
+            birth = "N/A"
+        case .Some(let x) where x < 0:
+            birth = "\(x) BBY"
+        case .Some(let x):
+            birth = "\(x) ABY"
+        }
+        let na = "N/A"
+        return "\(name) (\(gender?.rawValue ?? na)), born in \(birth) on \(homeworld)"
+    }
 }

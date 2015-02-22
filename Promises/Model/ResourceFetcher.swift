@@ -11,7 +11,7 @@ import PromiseKit
 
 let baseurl = "http://swapi.co/api/"
 
-struct ResourceFetcher<T: JSONModelObject> : Printable {
+struct ResourceFetcher<T: JSONModelObject> {
     let url: String
     init(url: String) { self.url = url }
     
@@ -36,7 +36,9 @@ struct ResourceFetcher<T: JSONModelObject> : Printable {
             return Promise<[T]>(value: array)
         }
     }
-    
-    var description: String { return "<Fetcher<\(T.apiEndPoint)> \(url)>" }
+}
+
+extension ResourceFetcher : Printable {
+    var description: String { return "<Resource \(url)>" }
 }
 

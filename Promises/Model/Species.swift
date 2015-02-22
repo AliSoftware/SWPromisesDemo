@@ -10,7 +10,6 @@ import Foundation
 
 struct Species : JSONModelObject, Printable {
     static var apiEndPoint: String { return "species" }
-    
     let resourceInfo: ResourceInfo
     
     init(dict: NSDictionary) {

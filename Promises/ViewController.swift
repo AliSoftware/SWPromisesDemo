@@ -16,8 +16,13 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
 
         println("Fetching person #1…")
-        Fetcher<Person>.fetch(id: 1).then { p in
-            println("Person found: \(p), starships: \(p.starships)")
+        ResourceFetcher<Person>.fetch(id: 1).then { (p: Person) -> Void in
+            for fetcher in p.starships {
+                fetcher.fetch().then {
+                    println("-- Starship: \($0)")
+                }
+            }
+            println("Person found: \(p)")
         }
     }
 
