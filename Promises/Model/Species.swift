@@ -11,15 +11,11 @@ import Foundation
 struct Species : JSONModelObject, Printable {
     static var apiEndPoint: String { return "species" }
     
-    let url: String
-    let created: Date
-    let edited: Date
+    let resourceInfo: ResourceInfo
     
     init(dict: NSDictionary) {
-        url = dict["url"] as String
-        created = Date(iso8601: dict["created"] as String)
-        edited = Date(iso8601: dict["edited"] as String)
+        resourceInfo = ResourceInfo(dict: dict)
     }
     
-    var description: String { return "<Species \(url)>" }
+    var description: String { return "<Species \(resourceInfo.url)>" }
 }

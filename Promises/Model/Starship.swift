@@ -11,15 +11,11 @@ import Foundation
 struct Starship : JSONModelObject, Printable {
     static var apiEndPoint: String { return "starships" }
     
-    let url: String
-    let created: Date
-    let edited: Date
+    let resourceInfo: ResourceInfo
     
     init(dict: NSDictionary) {
-        url = dict["url"] as String
-        created = Date(iso8601: dict["created"] as String)
-        edited = Date(iso8601: dict["edited"] as String)
+        resourceInfo = ResourceInfo(dict: dict)
     }
 
-    var description: String { return "<Starship \(url)>" }
+    var description: String { return "<Starship \(resourceInfo.url)>" }
 }

@@ -7,45 +7,23 @@
 //
 
 import Foundation
-import PromiseKit
 
 protocol JSONModelObject {
     init(dict: NSDictionary)
     class var apiEndPoint: String { get }
     
-    var url: String   { get }
-    var created: Date { get }
-    var edited: Date  { get }
+    var resourceInfo: ResourceInfo { get }
 }
 
-let baseurl = "http://swapi.co/api/"
-
-struct Fetcher<T: JSONModelObject> : Printable {
+struct ResourceInfo {
     let url: String
-    init(url: String) { self.url = url }
-    
-    func fetch() -> Promise<T> {
-        return NSURLConnection.GET(self.url).then { (dict: NSDictionary) in
-            let obj: T = T(dict: dict)
-            return Promise<T>(value: obj)
-        }
+    let created: Date
+    let edited: Date
+
+    init(dict: NSDictionary) {
+        url = dict["url"] as String
+        created = Date(iso8601: dict["created"] as String)
+        edited = Date(iso8601: dict["edited"] as String)
     }
-    
-    static func fetch(#id: Int) -> Promise<T> {
-        let url = "\(baseurl)\(T.apiEndPoint)/\(id)"
-        let fetcher = Fetcher<T>(url: url)
-        return fetcher.fetch()
-    }
-    
-    static func fetchAll() -> Promise<[T]> {
-        let url = baseurl + T.apiEndPoint
-        return NSURLConnection.GET(url).then { (dict: NSDictionary) in
-            let results = dict["results"] as [NSDictionary]
-            let array = results.map { T(dict: $0) }
-            return Promise<[T]>(value: array)
-        }
-    }
-    
-    var description: String { return "<Fetcher<\(T.apiEndPoint)> \(url)>" }
 }
 

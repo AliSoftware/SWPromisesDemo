@@ -27,15 +27,13 @@ struct Person : JSONModelObject, Printable {
     let height: Int?      // in centimeters.
     let mass: Int?        // in kilograms.
     let skin_color: String
-    let homeworld: Fetcher<Planet>
-    let films: [Fetcher<Film>]
-    let species: [Fetcher<Species>]
-    let starships: [Fetcher<Starship>]
-    let vehicles: [Fetcher<Vehicle>]
+    let homeworld: ResourceFetcher<Planet>
+    let films: [ResourceFetcher<Film>]
+    let species: [ResourceFetcher<Species>]
+    let starships: [ResourceFetcher<Starship>]
+    let vehicles: [ResourceFetcher<Vehicle>]
 
-    let url: String
-    let created: Date
-    let edited: Date
+    let resourceInfo: ResourceInfo
     
     // TODO: Make this a failable initializer?
     init(dict: NSDictionary) {
@@ -55,16 +53,14 @@ struct Person : JSONModelObject, Printable {
         height = (dict["height"] as String).toInt()
         mass = (dict["mass"] as String).toInt()
         skin_color = dict["skin_color"] as String
-        homeworld = Fetcher<Planet>(url: dict["homeworld"] as String)
-        films = (dict["films"] as [String]).map { Fetcher<Film>(url: $0) }
-        species = (dict["species"] as [String]).map { Fetcher<Species>(url: $0) }
-        starships = (dict["starships"] as [String]).map { Fetcher<Starship>(url: $0) }
-        vehicles = (dict["vehicles"] as [String]).map { Fetcher<Vehicle>(url: $0) }
+        homeworld = ResourceFetcher<Planet>(url: dict["homeworld"] as String)
+        films = (dict["films"] as [String]).map { ResourceFetcher<Film>(url: $0) }
+        species = (dict["species"] as [String]).map { ResourceFetcher<Species>(url: $0) }
+        starships = (dict["starships"] as [String]).map { ResourceFetcher<Starship>(url: $0) }
+        vehicles = (dict["vehicles"] as [String]).map { ResourceFetcher<Vehicle>(url: $0) }
         
-        url = dict["url"] as String
-        created = Date(iso8601: dict["created"] as String)
-        edited = Date(iso8601: dict["edited"] as String)
+        resourceInfo = ResourceInfo(dict: dict)
     }
     
-    var description: String { return "<Person \"\(name)\" \(url)>" }
+    var description: String { return "<Person \"\(name)\" \(resourceInfo.url)>" }
 }
