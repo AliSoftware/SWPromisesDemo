@@ -26,12 +26,12 @@ class ViewController: UIViewController {
         }
 
         ResourceFetcher<Person>.fetch(id: 1)
-            .then { (p: Person) -> Void in
-                println("Person found: \(p)")
+            .then({ (p: Person) -> Void in
+                println("First person found: \(p)")
                 for ship in p.starships {
                     ship.fetch().then(printShipWithPilots)
                 }
-        }
+            })
     }
 
 }

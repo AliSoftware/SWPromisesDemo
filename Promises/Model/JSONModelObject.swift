@@ -25,6 +25,10 @@ struct ResourceInfo {
         created = Date(iso8601: dict["created"] as String)
         edited = Date(iso8601: dict["edited"] as String)
     }
+    
+    var id: Int? {
+        return NSURL(string: self.url)?.lastPathComponent?.toInt()
+    }
 }
 
 extension ResourceInfo : Printable {

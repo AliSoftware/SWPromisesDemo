@@ -75,6 +75,6 @@ extension Person : Printable {
             birth = "\(x) ABY"
         }
         let na = "N/A"
-        return "\(name) (\(gender?.rawValue ?? na)), born in \(birth) on \(homeworld)"
+        return "\(name) (\(gender?.rawValue ?? na)), born in \(birth) on \(homeworld) [\(resourceInfo.id!)]"
     }
 }
