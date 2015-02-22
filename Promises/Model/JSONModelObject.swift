@@ -11,7 +11,11 @@ import PromiseKit
 
 protocol JSONModelObject {
     init(dict: NSDictionary)
-    class var apiPoint: String { get }
+    class var apiEndPoint: String { get }
+    
+    var url: String   { get }
+    var created: Date { get }
+    var edited: Date  { get }
 }
 
 let baseurl = "http://swapi.co/api/"
@@ -28,13 +32,13 @@ struct Fetcher<T: JSONModelObject> : Printable {
     }
     
     static func fetch(#id: Int) -> Promise<T> {
-        let url = "\(baseurl)\(T.apiPoint)/\(id)"
+        let url = "\(baseurl)\(T.apiEndPoint)/\(id)"
         let fetcher = Fetcher<T>(url: url)
         return fetcher.fetch()
     }
     
     static func fetchAll() -> Promise<[T]> {
-        let url = baseurl + T.apiPoint
+        let url = baseurl + T.apiEndPoint
         return NSURLConnection.GET(url).then { (dict: NSDictionary) in
             let results = dict["results"] as [NSDictionary]
             let array = results.map { T(dict: $0) }
@@ -42,6 +46,6 @@ struct Fetcher<T: JSONModelObject> : Printable {
         }
     }
     
-    var description: String { return "<Fetcher<\(T.apiPoint)> \(url)>" }
+    var description: String { return "<Fetcher<\(T.apiEndPoint)> \(url)>" }
 }
 

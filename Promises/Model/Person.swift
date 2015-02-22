@@ -17,24 +17,25 @@ enum Gender : String {
 
 
 struct Person : JSONModelObject, Printable {
-    static var apiPoint: String { return "people" }
+    static var apiEndPoint: String { return "people" }
     
-    let name: String // The name of this person.
-    let birth_year: Int? // The birth year of the person, using the in-universe standard of BBY or ABY - Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin is a battle that occurs at the end of Star Wars episode IV: A New Hope.
-    let eye_color: String // The eye color of this person. Will be "unknown" if not known or "n/a" if the person does not have an eye.
-    let gender: Gender? // The gender of this person. Either "Male", "Female" or "unknown", "n/a" if the person does not have a gender.
-    let hair_color: String // The hair color of this person. Will be "unknown" if not known or "n/a" if the person does not have hair.
-    let height: Int? // The height of the person in centimeters.
-    let mass: Int? // The mass of the person in kilograms.
-    let skin_color: String // The skin color of this person.
-    let homeworld: Fetcher<Planet> // The URL of a planet resource, a planet that this person was born on or inhabits.
-    let films: [Fetcher<Film>] // An array of film resource URLs that this person has been in.
-    let species: [Fetcher<Species>] // An array of species resource URLs that this person belonds to.
-    let starships: [Fetcher<Starship>] // An array of starship resource URLs that this person has piloted.
-    let vehicles: [Fetcher<Vehicle>] // An array of vehicle resource URLs that this person has piloted.
-    let url: String // the hypermedia URL of this resource.
-    let created: Date // the ISO 8601 date format of the time that this resource was created.
-    let edited: Date // the ISO 8601 date format of the time that this resource was edited.
+    let name: String
+    let birth_year: Int?  // Relative to the Battle of Yavin (Star Wars episode IV: A New Hope)
+    let eye_color: String
+    let gender: Gender?
+    let hair_color: String
+    let height: Int?      // in centimeters.
+    let mass: Int?        // in kilograms.
+    let skin_color: String
+    let homeworld: Fetcher<Planet>
+    let films: [Fetcher<Film>]
+    let species: [Fetcher<Species>]
+    let starships: [Fetcher<Starship>]
+    let vehicles: [Fetcher<Vehicle>]
+
+    let url: String
+    let created: Date
+    let edited: Date
     
     // TODO: Make this a failable initializer?
     init(dict: NSDictionary) {
@@ -59,6 +60,7 @@ struct Person : JSONModelObject, Printable {
         species = (dict["species"] as [String]).map { Fetcher<Species>(url: $0) }
         starships = (dict["starships"] as [String]).map { Fetcher<Starship>(url: $0) }
         vehicles = (dict["vehicles"] as [String]).map { Fetcher<Vehicle>(url: $0) }
+        
         url = dict["url"] as String
         created = Date(iso8601: dict["created"] as String)
         edited = Date(iso8601: dict["edited"] as String)
