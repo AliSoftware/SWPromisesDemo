@@ -11,21 +11,31 @@ import PromiseKit
 
 let baseurl = "http://swapi.co/api/"
 
+private var resourceFetcherCache = [String:JSONModelObject]()
+
 struct ResourceFetcher<T: JSONModelObject> {
     let url: String
     init(url: String) { self.url = url }
-    
-    func fetch() -> Promise<T> {
+
+    func fetch(useCache: Bool = true) -> Promise<T> {
+        if useCache {
+            let cachedObject = resourceFetcherCache[self.url]
+            if let object = cachedObject {
+//                println(">>> Used cache for \(self.url)!")
+                return Promise<T>(value: object as T)
+            }
+        }
         return NSURLConnection.GET(self.url).then { (dict: NSDictionary) in
             let obj: T = T(dict: dict)
+            resourceFetcherCache[self.url] = obj
             return Promise<T>(value: obj)
         }
     }
     
-    static func fetch(#id: Int) -> Promise<T> {
-        let url = "\(baseurl)\(T.apiEndPoint)/\(id)"
+    static func fetch(#id: Int, useCache: Bool = true) -> Promise<T> {
+        let url = "\(baseurl)\(T.apiEndPoint)/\(id)/"
         let fetcher = ResourceFetcher<T>(url: url)
-        return fetcher.fetch()
+        return fetcher.fetch(useCache: useCache)
     }
     
     static func fetchAll() -> Promise<[T]> {
@@ -33,6 +43,7 @@ struct ResourceFetcher<T: JSONModelObject> {
         return NSURLConnection.GET(url).then { (dict: NSDictionary) in
             let results = dict["results"] as [NSDictionary]
             let array = results.map { T(dict: $0) }
+            for obj in array { resourceFetcherCache[obj.resourceInfo.url] = obj }
             return Promise<[T]>(value: array)
         }
     }

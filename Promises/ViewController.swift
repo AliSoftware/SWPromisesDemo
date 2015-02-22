@@ -16,13 +16,21 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
 
         println("Fetching person #1…")
-        ResourceFetcher<Person>.fetch(id: 1).then { (p: Person) -> Void in
-            for fetcher in p.starships {
-                fetcher.fetch().then {
-                    println("-- Starship: \($0)")
-                }
+        
+        func printShipWithPilots(ship: Starship) {
+//            println("  >>> Fetching pilots of \(ship.name)")
+            when(ship.pilots.map { $0.fetch() }).then { (pilots :[Person]) -> Void in
+                println("-- Starship: \(ship.name), \(ship.model)")
+                for pilot in pilots { println("   '-- Pilot: \(pilot)") }
             }
-            println("Person found: \(p)")
+        }
+
+        ResourceFetcher<Person>.fetch(id: 1)
+            .then { (p: Person) -> Void in
+                println("Person found: \(p)")
+                for ship in p.starships {
+                    ship.fetch().then(printShipWithPilots)
+                }
         }
     }
 
