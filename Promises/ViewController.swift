@@ -7,19 +7,19 @@
 //
 
 import UIKit
+import PromiseKit
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        println("Fetching person #1…")
+        Fetcher<Person>.fetch(id: 1).then { p in
+            println("Person found: \(p), starships: \(p.starships)")
+        }
     }
-
 
 }
 
