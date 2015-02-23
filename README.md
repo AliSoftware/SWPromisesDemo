@@ -40,7 +40,7 @@ The `ResourceFetcher.swift` file defines the template class `ResourceFetcher<T>`
 
 This class is a wrapper to fetch any resource from the SW API.
 
-* It is able to build an URL for a given resource (like a `Person`, `Vehicle`, `Starship`, `Planet`, …)
+* It is able to build an URL for a given resource (like a `Person`, `Vehicle`, `Starship`, `Planet`, …) given its ID
 * Its main goal is to fetch a resource given its URL, parse the response as a JSON dictionary, then build a `JSONObjectModel` object from that JSON dictionary.
 
 You build a `ResourceFetcher` instance by giving it an URL, instanciating the template with the class of the resource it is supposed to create. For example `ResourceFetcher<Person>(url: someURL)` will instanciate a ResourceFetcher configured with the given URL and that is supposed to build a `Person` object in the end.
@@ -51,9 +51,9 @@ Then when you call `fetch()` on that `ResourceFetcher<T>`, it will send the requ
 
 The `ResourceFetcher<T>` class is useful as a helper to fetch any resource in the API directly, but it's also useful to manage when the object returned by the API contains relationships.
 
-For example when you query a `Spaceship` object from the WebService, the `pilots` field in the JSON will contain an array of URLs, each of which are pointing to the endpoint to fetch the corresponding person.
+For example when you query a `Starship` object from the WebService, the `pilots` field in the JSON will contain an array of URLs, each of which are pointing to the endpoint to fetch the corresponding person.
 
-When building a `Spaceship` object, I have chosen to fill its `pilots` property not with an array of `Strings` (the URLs), but with an array of `ResourceFetcher<Person>` each configured with the corresponding URL.  
+When building a `Starship` object, I have chosen to fill its `pilots` property not with an array of `Strings` (the URLs), but with an array of `ResourceFetcher<Person>` each configured with the corresponding URL.  
 That way, you know that those represents URLs to `Person` objects/resources (in contrast to plain `String`), and more importantly, you can directly call `fetch()` on those objects to retrieve the corresponding `Person` when you need it.
 
 ### Model Objects
