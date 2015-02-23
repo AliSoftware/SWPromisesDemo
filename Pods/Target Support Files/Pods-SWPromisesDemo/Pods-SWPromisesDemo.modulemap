@@ -1,0 +1,6 @@
+framework module Pods_SWPromisesDemo {
+  umbrella header "Pods-SWPromisesDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}

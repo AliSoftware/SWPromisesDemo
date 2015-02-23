@@ -2,11 +2,11 @@ platform :ios, '8.0'
 
 # use_frameworks!
 
-target 'Promises' do
+target 'SWPromisesDemo' do
   pod 'PromiseKit/Swift'
 end
 
-target 'PromisesTests' do
+target 'UnitTests' do
 
 end
 
