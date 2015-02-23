@@ -11,17 +11,21 @@ import PromiseKit
 
 let baseurl = "http://swapi.co/api/"
 
+// TODO: Once Swift adds support for static variables in generic types
+// we should migrate this as a static var inside ResourceFetcher<T> (and change type to [String:T])
 private var resourceFetcherCache = [String:JSONModelObject]()
 
 struct ResourceFetcher<T: JSONModelObject> {
     let url: String
     init(url: String) { self.url = url }
 
+    var cachedObject: T? {
+        return resourceFetcherCache[self.url] as T?
+    }
+    
     func fetch(useCache: Bool = true) -> Promise<T> {
         if useCache {
-            let cachedObject = resourceFetcherCache[self.url]
             if let object = cachedObject {
-//                println(">>> Used cache for \(self.url)!")
                 return Promise<T>(value: object as T)
             }
         }
