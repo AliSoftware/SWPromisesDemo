@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		094664F51A9BC86D0063311F /* Pods-SWPromisesDemo.debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 094664F31A9BC86D0063311F /* Pods-SWPromisesDemo.debug.xcconfig */; };
-		094664F61A9BC86D0063311F /* Pods-SWPromisesDemo.release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 094664F41A9BC86D0063311F /* Pods-SWPromisesDemo.release.xcconfig */; };
 		09A3A08D1A9A340E0035318A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A08C1A9A340E0035318A /* AppDelegate.swift */; };
 		09A3A08F1A9A340E0035318A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A08E1A9A340E0035318A /* ViewController.swift */; };
 		09A3A0921A9A340E0035318A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09A3A0901A9A340E0035318A /* Main.storyboard */; };
@@ -24,7 +22,6 @@
 		09A3A0BA1A9A42D20035318A /* Film.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0B91A9A42D20035318A /* Film.swift */; };
 		09A3A0BC1A9A42E20035318A /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0BB1A9A42E20035318A /* Date.swift */; };
 		09A3A0BE1A9A4C9A0035318A /* ResourceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0BD1A9A4C9A0035318A /* ResourceFetcher.swift */; };
-		232E1A79BDED154ECF62032C /* Pods_Promises.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26B1FEE145520515F6850E7 /* Pods_Promises.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7031D79FA4EA2F861A18239D /* Pods_SWPromisesDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38FC161E54905EF639C59E0 /* Pods_SWPromisesDemo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -69,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				232E1A79BDED154ECF62032C /* Pods_Promises.framework in Frameworks */,
 				7031D79FA4EA2F861A18239D /* Pods_SWPromisesDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,8 +273,6 @@
 			files = (
 				09A3A0921A9A340E0035318A /* Main.storyboard in Resources */,
 				09A3A0971A9A340E0035318A /* LaunchScreen.xib in Resources */,
-				094664F61A9BC86D0063311F /* Pods-SWPromisesDemo.release.xcconfig in Resources */,
-				094664F51A9BC86D0063311F /* Pods-SWPromisesDemo.debug.xcconfig in Resources */,
 				09A3A0941A9A340E0035318A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
