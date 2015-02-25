@@ -25,8 +25,8 @@ struct Starship : JSONModelObject, Printable {
     let MGLT: Double
     let cargo_capacity: Int? // in kilograms that this starship can transport.
     let consumables: String
-    let films: [ResourceFetcher<Film>]
-    let pilots: [ResourceFetcher<Person>]
+    let films: [ResourceURL<Film>]
+    let pilots: [ResourceURL<Person>]
     
     init(dict: NSDictionary) {
         name = dict["name"] as String
@@ -42,8 +42,8 @@ struct Starship : JSONModelObject, Printable {
         MGLT = (dict["MGLT"] as NSString).doubleValue
         cargo_capacity = (dict["cargo_capacity"] as String).toInt()
         consumables = dict["consumables"] as String
-        films = (dict["films"] as [String]).map { ResourceFetcher<Film>(url: $0) }
-        pilots = (dict["pilots"] as [String]).map { ResourceFetcher<Person>(url: $0) }
+        films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
+        pilots = (dict["pilots"] as [String]).map { ResourceURL<Person>(url: $0) }
         
         resourceInfo = ResourceInfo(dict: dict)
     }

@@ -25,7 +25,7 @@ If you want to play around with the demo, add some stuff, and need to `pod insta
 
 The interesting part of the demo is located in the Xcode Group named `Model`.
 
-It describes the Model Objects like `Person`, `Planet`, `Species`, `Starship`, `Vehicle` and `Film`, some common protocol and a `ResourceFetcher`.
+It describes the Model Objects like `Person`, `Planet`, `Species`, `Starship`, `Vehicle` and `Film`, some common protocol and a `ResourceURL` structure.
 
 ### The `JSONModelObject` protocol
 
@@ -34,27 +34,43 @@ The `JSONModelObject.swift` file contains the declaration of the `JSONModelObjec
 * This protocol is used as a base for any resource in the API (`Person`, `Planet`, `Species`, `Starship`, `Vehicle` and `Film`).
 * As every Resource of the API has the `url`, `createdAt` and `editedAt` fields, which are more "meta-datas" than actual data describing the object, these have been embeded inside the `ResourceInfo` structure, and every resource object will have a `resourceInfo` property to describe those three fields separately, as described in the `JSONModelObject` protocol.
 
-### The `ResourceFetcher<T>` class
+### The `ResourceURL<T>` class
 
-The `ResourceFetcher.swift` file defines the template class `ResourceFetcher<T>`.
+This class is a wrapper to fetch any resource from the SW API. It encapsulate an URL / reference to a resource in the API and has the ability to fetch this resource on demand.
 
-This class is a wrapper to fetch any resource from the SW API.
+* You build a `ResourceURL` instance by giving it an URL, for example `ResourceURL<Person>(url: someURLToAPersonResource)`, or an ID, for example `ResourceURL<Person>(id: 5)`.
+* Then you can call `fetch()` on that `ResourceURL<T>` which will send the request to its URL, parse the response as JSON, then try to build the `T` object (for example the `Person` instance) using that JSON dictionary.
 
-* It is able to build an URL for a given resource (like a `Person`, `Vehicle`, `Starship`, `Planet`, …) given its ID
-* Its main goal is to fetch a resource given its URL, parse the response as a JSON dictionary, then build a `JSONObjectModel` object from that JSON dictionary.
-
-You build a `ResourceFetcher` instance by giving it an URL, instanciating the template with the class of the resource it is supposed to create. For example `ResourceFetcher<Person>(url: someURL)` will instanciate a ResourceFetcher configured with the given URL and that is supposed to build a `Person` object in the end.
-
-Then when you call `fetch()` on that `ResourceFetcher<T>`, it will send the request to its URL, parse the response as JSON, then try to build the `T` object (for example the `Person` instance) using that JSON dictionary. As fetching the resource is intended to return a `T` object "in the future", the `fetch()` function returns a `Promise<T>`
+As fetching the resource is intended to return a `T` object "in the future", **the `fetch()` function returns a `Promise<T>`.**
 
 ### Object RelationShips
 
-The `ResourceFetcher<T>` class is useful as a helper to fetch any resource in the API directly, but it's also useful to manage when the object returned by the API contains relationships.
+The `ResourceURL<T>` class is mainly useful to represent when the object returned by the API contains **relationships** to other objects.
 
-For example when you query a `Starship` object from the WebService, the `pilots` field in the JSON will contain an array of URLs, each of which are pointing to the endpoint to fetch the corresponding person.
+> E.g. when you query a `Starship` object from the WebService, the `pilots` field in the JSON will contain an array of URLs, each of which are pointing to the endpoint to fetch the corresponding person.
 
-When building a `Starship` object, I have chosen to fill its `pilots` property not with an array of `Strings` (the URLs), but with an array of `ResourceFetcher<Person>` each configured with the corresponding URL.  
-That way, you know that those represents URLs to `Person` objects/resources (in contrast to plain `String`), and more importantly, you can directly call `fetch()` on those objects to retrieve the corresponding `Person` when you need it.
+Instead of having an array of plain `Strings` in the Swift model class, I chose to represent relationships as `ResourceURL<T>`. For example a `Person` has a property `homeworld` of type `ResourceURL<Planet>`.
+
+That way:
+
+* The `Planet` resource is **fetched only on demand** (otherwise as the `Planet` object itself has relationships, that have relationships on their own, etc… we would end up retrieving the whole database) when you chose to call `fetch()` on it
+* You know that the `homeworld` property contains URLs to a `Planet` and not an arbitrary URL to any other resource
+* You can chain the calls to `fetch()` with a `then` (using Promises), and the compiler will do type chekings for you, like ensuring that the `then()` will expect the right kind of object (e.g. a `Planet`) corresponding to the `ResourceURL`.
+
+```swift
+let falcon = ResourceURL<Starship>(id: 10)
+falcon.fetch().then({ ship -> Promise<Person> in
+    println("Starship found: \(ship)")
+    let firstPilot = ship.pilots[0] // a ResourceURL<Pilot>
+    return firstPilot.fetch()
+}).then({ pilot -> Promise<Planet> in
+    println("Pilot found: \(pilot)")
+    let homeplanet = pilot.homeworld // a ResourceURL<Planet>
+    return homeplanet.fetch()
+}).then({ planet in
+    println("Homeworld found: \(planet)")
+})
+```
 
 ### Model Objects
 

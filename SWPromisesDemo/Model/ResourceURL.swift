@@ -1,5 +1,5 @@
 //
-//  Fetcher.swift
+//  ResourceURL.swift
 //  SWPromisesDemo
 //
 //  Created by Olivier Halligon on 22/02/2015.
@@ -12,15 +12,17 @@ import PromiseKit
 let baseurl = "http://swapi.co/api/"
 
 // TODO: Once Swift adds support for static variables in generic types
-// we should migrate this as a static var inside ResourceFetcher<T> (and change type to [String:T])
-private var resourceFetcherCache = [String:JSONModelObject]()
+// we should migrate this as a static var inside ResourceURL<T> (and change type to [String:T])
+private var resourceURLCache = [String:JSONModelObject]()
 
-struct ResourceFetcher<T: JSONModelObject> {
+struct ResourceURL<T: JSONModelObject> {
     let url: String
+    
     init(url: String) { self.url = url }
+    init(id: Int) { self.url = "\(baseurl)\(T.apiEndPoint)/\(id)/" }
 
     var cachedObject: T? {
-        return resourceFetcherCache[self.url] as T?
+        return resourceURLCache[self.url] as T?
     }
     
     func fetch(useCache: Bool = true) -> Promise<T> {
@@ -31,29 +33,29 @@ struct ResourceFetcher<T: JSONModelObject> {
         }
         return NSURLConnection.GET(self.url).then { (dict: NSDictionary) in
             let obj: T = T(dict: dict)
-            resourceFetcherCache[self.url] = obj
+            resourceURLCache[self.url] = obj
             return Promise<T>(value: obj)
         }
     }
     
     static func fetch(#id: Int, useCache: Bool = true) -> Promise<T> {
-        let url = "\(baseurl)\(T.apiEndPoint)/\(id)/"
-        let fetcher = ResourceFetcher<T>(url: url)
-        return fetcher.fetch(useCache: useCache)
+        let rsrcURL = ResourceURL<T>(id: id)
+        return rsrcURL.fetch(useCache: useCache)
     }
     
-    static func fetchAll() -> Promise<[T]> {
-        let url = baseurl + T.apiEndPoint
+    static func fetchAll(page: Int = 1) -> Promise<(list:[T], hasNext:Bool)> {
+        let url = baseurl + T.apiEndPoint + "/?page=\(page)"
         return NSURLConnection.GET(url).then { (dict: NSDictionary) in
             let results = dict["results"] as [NSDictionary]
             let array = results.map { T(dict: $0) }
-            for obj in array { resourceFetcherCache[obj.resourceInfo.url] = obj }
-            return Promise<[T]>(value: array)
+            for obj in array { resourceURLCache[obj.resourceInfo.url] = obj }
+            let hasNext = dict["next"] != nil
+            return Promise<(list:[T], hasNext:Bool)>(value: (array, hasNext))
         }
     }
 }
 
-extension ResourceFetcher : Printable {
+extension ResourceURL : Printable {
     var description: String { return "<Resource \(url)>" }
 }
 

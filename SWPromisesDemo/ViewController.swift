@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         println("Fetching person #1…")
         
         // - Given a ship, send all the requests (in parallel) to fetch all its pilots
-        //   by using map() to transform the Array<ResourceFetcher<Starship>> into an Array<Promise<Starship>>
+        //   by using map() to transform the Array<ResourceURL<Starship>> into an Array<Promise<Starship>>
         // - Wait for all pilot requests to finish (using when() to wait until all promises are fulfilled)
         //   then print the starship and all its pilots.
         func printShipWithPilots(ship: Starship) {
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         }
 
         // Fetch person with ID 1, then print it and iterate thru all its ships
-        ResourceFetcher<Person>.fetch(id: 1)
+        ResourceURL<Person>.fetch(id: 1)
             .then({ (p: Person) -> Void in
                 println("First person found: \(p)")
                 for ship in p.starships {

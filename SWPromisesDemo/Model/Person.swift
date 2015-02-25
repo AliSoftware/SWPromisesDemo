@@ -28,11 +28,11 @@ struct Person : JSONModelObject {
     let height: Int?      // in centimeters.
     let mass: Int?        // in kilograms.
     let skin_color: String
-    let homeworld: ResourceFetcher<Planet>
-    let films: [ResourceFetcher<Film>]
-    let species: [ResourceFetcher<Species>]
-    let starships: [ResourceFetcher<Starship>]
-    let vehicles: [ResourceFetcher<Vehicle>]
+    let homeworld: ResourceURL<Planet>
+    let films: [ResourceURL<Film>]
+    let species: [ResourceURL<Species>]
+    let starships: [ResourceURL<Starship>]
+    let vehicles: [ResourceURL<Vehicle>]
 
     
     // TODO: Make this a failable initializer?
@@ -53,11 +53,11 @@ struct Person : JSONModelObject {
         height = (dict["height"] as String).toInt()
         mass = (dict["mass"] as String).toInt()
         skin_color = dict["skin_color"] as String
-        homeworld = ResourceFetcher<Planet>(url: dict["homeworld"] as String)
-        films = (dict["films"] as [String]).map { ResourceFetcher<Film>(url: $0) }
-        species = (dict["species"] as [String]).map { ResourceFetcher<Species>(url: $0) }
-        starships = (dict["starships"] as [String]).map { ResourceFetcher<Starship>(url: $0) }
-        vehicles = (dict["vehicles"] as [String]).map { ResourceFetcher<Vehicle>(url: $0) }
+        homeworld = ResourceURL<Planet>(url: dict["homeworld"] as String)
+        films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
+        species = (dict["species"] as [String]).map { ResourceURL<Species>(url: $0) }
+        starships = (dict["starships"] as [String]).map { ResourceURL<Starship>(url: $0) }
+        vehicles = (dict["vehicles"] as [String]).map { ResourceURL<Vehicle>(url: $0) }
         
         resourceInfo = ResourceInfo(dict: dict)
     }

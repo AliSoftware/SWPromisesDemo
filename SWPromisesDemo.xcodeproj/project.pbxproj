@@ -21,7 +21,7 @@
 		09A3A0B81A9A42BD0035318A /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0B71A9A42BD0035318A /* Vehicle.swift */; };
 		09A3A0BA1A9A42D20035318A /* Film.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0B91A9A42D20035318A /* Film.swift */; };
 		09A3A0BC1A9A42E20035318A /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0BB1A9A42E20035318A /* Date.swift */; };
-		09A3A0BE1A9A4C9A0035318A /* ResourceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0BD1A9A4C9A0035318A /* ResourceFetcher.swift */; };
+		09A3A0BE1A9A4C9A0035318A /* ResourceURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A3A0BD1A9A4C9A0035318A /* ResourceURL.swift */; };
 		7031D79FA4EA2F861A18239D /* Pods_SWPromisesDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38FC161E54905EF639C59E0 /* Pods_SWPromisesDemo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -56,7 +56,7 @@
 		09A3A0B71A9A42BD0035318A /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		09A3A0B91A9A42D20035318A /* Film.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Film.swift; sourceTree = "<group>"; };
 		09A3A0BB1A9A42E20035318A /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		09A3A0BD1A9A4C9A0035318A /* ResourceFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceFetcher.swift; sourceTree = "<group>"; };
+		09A3A0BD1A9A4C9A0035318A /* ResourceURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceURL.swift; sourceTree = "<group>"; };
 		A26B1FEE145520515F6850E7 /* Pods_Promises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Promises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38FC161E54905EF639C59E0 /* Pods_SWPromisesDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SWPromisesDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -154,7 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				09A3A0AF1A9A425D0035318A /* JSONModelObject.swift */,
-				09A3A0BD1A9A4C9A0035318A /* ResourceFetcher.swift */,
+				09A3A0BD1A9A4C9A0035318A /* ResourceURL.swift */,
 				0995276B1A9BC05200BD5E1D /* Objects */,
 				09A3A0BB1A9A42E20035318A /* Date.swift */,
 			);
@@ -340,7 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09A3A0B81A9A42BD0035318A /* Vehicle.swift in Sources */,
-				09A3A0BE1A9A4C9A0035318A /* ResourceFetcher.swift in Sources */,
+				09A3A0BE1A9A4C9A0035318A /* ResourceURL.swift in Sources */,
 				09A3A0BC1A9A42E20035318A /* Date.swift in Sources */,
 				09A3A08F1A9A340E0035318A /* ViewController.swift in Sources */,
 				09A3A0B61A9A42AA0035318A /* Starship.swift in Sources */,
