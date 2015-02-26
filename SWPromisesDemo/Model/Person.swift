@@ -21,13 +21,13 @@ struct Person : JSONModelObject {
     let resourceInfo: ResourceInfo
     
     let name: String
-    let birth_year: Int?  // Relative to the Battle of Yavin (Star Wars episode IV: A New Hope)
-    let eye_color: String
-    let gender: Gender?
-    let hair_color: String
-    let height: Int?      // in centimeters.
-    let mass: Int?        // in kilograms.
-    let skin_color: String
+    let birth_year: Int      // Relative to the Battle of Yavin (Star Wars episode IV: A New Hope)
+    let eye_color: String?   // nil if not available
+    let gender: Gender?      // nil if not available
+    let hair_color: String?  // nil if not available
+    let height: Int          // in centimeters.
+    let mass: Int            // in kilograms.
+    let skin_color: String?  // nil if unknown
     let homeworld: ResourceURL<Planet>
     let films: [ResourceURL<Film>]
     let species: [ResourceURL<Species>]
@@ -40,19 +40,25 @@ struct Person : JSONModelObject {
         name = dict["name"] as String
         let birthStr = dict["birth_year"] as String
         if birthStr.hasSuffix("BBY") {
-            let end = advance(birthStr.endIndex, -4)
-            birth_year = birthStr.substringToIndex(end).toInt()
-            if (birth_year != nil) { birth_year = -birth_year! }
+            let end = advance(birthStr.endIndex, -3)
+            let year = birthStr.substringToIndex(end).toInt()!
+            birth_year = -year
         } else if birthStr.hasSuffix("ABY") {
-            let end = advance(birthStr.endIndex, -4)
-            birth_year = birthStr.substringToIndex(end).toInt()
+            let end = advance(birthStr.endIndex, -3)
+            birth_year = birthStr.substringToIndex(end).toInt()!
+        } else {
+            birth_year = 0
         }
-        eye_color = dict["eye_color"] as String
+        
+        func naToNil(string: String) -> String? {
+            return ((string.lowercaseString == "n/a") || (string.lowercaseString == "unknown")) ? nil : string
+        }
+        eye_color = naToNil(dict["eye_color"] as String)
         gender = Gender(rawValue: (dict["gender"] as String).lowercaseString)
-        hair_color = dict["hair_color"] as String
-        height = (dict["height"] as String).toInt()
-        mass = (dict["mass"] as String).toInt()
-        skin_color = dict["skin_color"] as String
+        hair_color = naToNil(dict["hair_color"] as String)
+        height = (dict["height"] as String).toInt()!
+        mass = (dict["mass"] as String).toInt()!
+        skin_color = naToNil(dict["skin_color"] as String)
         homeworld = ResourceURL<Planet>(url: dict["homeworld"] as String)
         films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
         species = (dict["species"] as [String]).map { ResourceURL<Species>(url: $0) }
@@ -65,16 +71,8 @@ struct Person : JSONModelObject {
 
 extension Person : Printable {
     var description: String {
-        var birth: String
-        switch birth_year {
-        case .None:
-            birth = "N/A"
-        case .Some(let x) where x < 0:
-            birth = "\(x) BBY"
-        case .Some(let x):
-            birth = "\(x) ABY"
-        }
-        let na = "N/A"
-        return "\(name) (\(gender?.rawValue ?? na)), born in \(birth) on \(homeworld) [\(resourceInfo.id!)]"
+        let birth = (birth_year < 0) ? "\(birth_year) BBY" : "\(birth_year) ABY"
+        let genderString = gender?.rawValue ?? "N/A"
+        return "<Person #\(resourceInfo.id!): \(name) (\(genderString)), born in \(birth) on \(homeworld)>"
     }
 }

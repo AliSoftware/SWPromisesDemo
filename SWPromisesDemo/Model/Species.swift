@@ -8,13 +8,51 @@
 
 import Foundation
 
-struct Species : JSONModelObject, Printable {
+struct Species : JSONModelObject {
     static var apiEndPoint: String { return "species" }
     let resourceInfo: ResourceInfo
     
+    let name: String
+    let classification: String
+    let designation: String
+    let average_height: Int    // in centimeters.
+    let average_lifespan: Int  // in years.
+    let eye_colors: [String]?
+    let hair_colors: [String]?
+    let skin_colors: [String]?
+    let language: String
+    let homeworld: ResourceURL<Planet>
+    let people: [ResourceURL<Person>]
+    let films: [ResourceURL<Film>]
+    
     init(dict: NSDictionary) {
+        name = dict["name"] as String
+        classification = dict["classification"] as String
+        designation = dict["designation"] as String
+        average_height = (dict["average_height"] as String).toInt()!
+        average_lifespan = (dict["average_lifespan"] as String).toInt()!
+        
+        func parseList(commaString: String) -> [String]? {
+            if (commaString == "none") { return nil }
+            let spaceSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+            return commaString.componentsSeparatedByString(",")
+                .map { $0.stringByTrimmingCharactersInSet(spaceSet) }
+        }
+        eye_colors = parseList(dict["eye_colors"] as String)
+        hair_colors = parseList(dict["hair_colors"] as String)
+        skin_colors = parseList(dict["skin_colors"] as String)
+        
+        language = dict["language"] as String
+        homeworld = ResourceURL<Planet>(url:(dict["homeworld"] as String))
+        people = (dict["people"] as [String]).map { ResourceURL<Person>(url: $0) }
+        films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
+        
         resourceInfo = ResourceInfo(dict: dict)
     }
-    
-    var description: String { return "<Species \(resourceInfo.url)>" }
+}
+
+extension Species : Printable {
+    var description: String {
+        return "<Species #\(resourceInfo.id!): \(name)>"
+    }
 }

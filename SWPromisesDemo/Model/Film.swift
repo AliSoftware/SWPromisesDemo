@@ -16,5 +16,5 @@ struct Film : JSONModelObject, Printable {
         resourceInfo = ResourceInfo(dict: dict)
     }
 
-    var description: String { return "<Film \(resourceInfo.url)>" }
+    var description: String { return "<Film #\(resourceInfo.id!)>" }
 }

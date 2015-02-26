@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Starship : JSONModelObject, Printable {
+struct Starship : JSONModelObject {
     static var apiEndPoint: String { return "starships" }
     let resourceInfo: ResourceInfo
     
@@ -16,14 +16,14 @@ struct Starship : JSONModelObject, Printable {
     let model: String
     let starship_class: String
     let manufacturer: String
-    let cost: Double // in credits
-    let length: Double // in meters.
+    let cost: Double          // in credits
+    let length: Double        // in meters.
     let crew: Int?
     let passengers: Int?
-    let max_atmosphering_speed: Double?
+    let max_atmosphering_speed: Double? // nil if the ship is incapable of atmosphering flight.
     let hyperdrive_rating: Double
     let MGLT: Double
-    let cargo_capacity: Int? // in kilograms that this starship can transport.
+    let cargo_capacity: Int?  // in kilograms that this starship can transport.
     let consumables: String
     let films: [ResourceURL<Film>]
     let pilots: [ResourceURL<Person>]
@@ -47,6 +47,10 @@ struct Starship : JSONModelObject, Printable {
         
         resourceInfo = ResourceInfo(dict: dict)
     }
+}
 
-    var description: String { return "\(name) (\(model))>" }
+extension Starship : Printable {
+    var description: String {
+        return "<Starship #\(resourceInfo.id!): \(name) (\(model))>"
+    }
 }

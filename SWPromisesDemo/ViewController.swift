@@ -13,8 +13,34 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
 
+//        fetchFirstPersonAndPrintStarships()
+        fetchFalconAndPrintPilotsHomeworld()
+
+    }
+
+    private func fetchFalconAndPrintPilotsHomeworld() {
+        let falcon = ResourceURL<Starship>(id: 10)
+        falcon.fetch().then({ ship -> Promise<Person> in
+            println("Starship found: \(ship)")
+            let firstPilot = ship.pilots[0] // a ResourceURL<Pilot>
+            return firstPilot.fetch()
+        }).then({ pilot -> Void in
+            println("First Pilot found: \(pilot)")
+            
+            let homeplanet = pilot.homeworld // a ResourceURL<Planet>
+            homeplanet.fetch().then({ planet in
+                println("Homeworld found: \(planet)")
+            })
+            
+            let species = pilot.species // an array of ResourceURL<Species>
+            species[0].fetch().then({ species in
+                println("First Species found: \(species)")
+            })
+        })
+    }
+    
+    private func fetchFirstPersonAndPrintStarships() {
         println("Fetching person #1…")
         
         // - Given a ship, send all the requests (in parallel) to fetch all its pilots
@@ -27,7 +53,7 @@ class ViewController: UIViewController {
                 for pilot in pilots { println("   '-- Pilot: \(pilot)") }
             }
         }
-
+        
         // Fetch person with ID 1, then print it and iterate thru all its ships
         ResourceURL<Person>.fetch(id: 1)
             .then({ (p: Person) -> Void in
@@ -38,6 +64,6 @@ class ViewController: UIViewController {
                 }
             })
     }
-
+    
 }
 

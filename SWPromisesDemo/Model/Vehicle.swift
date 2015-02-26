@@ -16,5 +16,5 @@ struct Vehicle : JSONModelObject, Printable {
         resourceInfo = ResourceInfo(dict: dict)
     }
 
-    var description: String { return "<Vehicle \(resourceInfo.url)>" }
+    var description: String { return "<Vehicle #\(resourceInfo.id!)>" }
 }
