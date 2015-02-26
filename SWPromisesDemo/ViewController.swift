@@ -22,20 +22,25 @@ class ViewController: UIViewController {
     private func fetchFalconAndPrintPilotsHomeworld() {
         let falcon = ResourceURL<Starship>(id: 10)
         falcon.fetch().then({ ship -> Promise<Person> in
-            println("Starship found: \(ship)")
+            println("--> Starship found: \(ship)")
             let firstPilot = ship.pilots[0] // a ResourceURL<Pilot>
             return firstPilot.fetch()
         }).then({ pilot -> Void in
-            println("First Pilot found: \(pilot)")
+            println("--> First Pilot found: \(pilot)")
+            
+            // Fetch all films the pilot played into
+            when(pilot.films.map{$0.fetch()}).then({ films in
+                println("--> Played in films: \(films)")
+            })
             
             let homeplanet = pilot.homeworld // a ResourceURL<Planet>
             homeplanet.fetch().then({ planet in
-                println("Homeworld found: \(planet)")
+                println("--> Homeworld found: \(planet)")
             })
             
             let species = pilot.species // an array of ResourceURL<Species>
             species[0].fetch().then({ species in
-                println("First Species found: \(species)")
+                println("--> First Species found: \(species)")
             })
         })
     }
