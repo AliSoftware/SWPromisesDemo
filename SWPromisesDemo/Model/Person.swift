@@ -21,12 +21,12 @@ struct Person : JSONModelObject {
     let resourceInfo: ResourceInfo
     
     let name: String
-    let birth_year: Int      // Relative to the Battle of Yavin (Star Wars episode IV: A New Hope)
+    let birth_year: Int?     // Relative to the Battle of Yavin (Star Wars episode IV: A New Hope)
     let eye_color: String?   // nil if not available
     let gender: Gender?      // nil if not available
     let hair_color: String?  // nil if not available
-    let height: Int          // in centimeters.
-    let mass: Int            // in kilograms.
+    let height: Int?         // in centimeters.
+    let mass: Int?           // in kilograms.
     let skin_color: String?  // nil if unknown
     let homeworld: ResourceURL<Planet>
     let films: [ResourceURL<Film>]
@@ -46,8 +46,6 @@ struct Person : JSONModelObject {
         } else if birthStr.hasSuffix("ABY") {
             let end = advance(birthStr.endIndex, -3)
             birth_year = birthStr.substringToIndex(end).toInt()!
-        } else {
-            birth_year = 0
         }
         
         func naToNil(string: String) -> String? {
@@ -56,8 +54,8 @@ struct Person : JSONModelObject {
         eye_color = naToNil(dict["eye_color"] as String)
         gender = Gender(rawValue: (dict["gender"] as String).lowercaseString)
         hair_color = naToNil(dict["hair_color"] as String)
-        height = (dict["height"] as String).toInt()!
-        mass = (dict["mass"] as String).toInt()!
+        height = (dict["height"] as String).toInt()
+        mass = (dict["mass"] as String).toInt()
         skin_color = naToNil(dict["skin_color"] as String)
         homeworld = ResourceURL<Planet>(url: dict["homeworld"] as String)
         films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
@@ -71,7 +69,7 @@ struct Person : JSONModelObject {
 
 extension Person : Printable {
     var description: String {
-        let birth = (birth_year < 0) ? "\(birth_year) BBY" : "\(birth_year) ABY"
+        let birth = (birth_year == nil) ? "N/A" : (birth_year! < 0) ? "\(birth_year!) BBY" : "\(birth_year!) ABY"
         let genderString = gender?.rawValue ?? "N/A"
         return "<Person #\(resourceInfo.id!): \(name) (\(genderString)), born in \(birth) on \(homeworld)>"
     }

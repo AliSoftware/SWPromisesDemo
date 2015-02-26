@@ -15,8 +15,8 @@ struct Species : JSONModelObject {
     let name: String
     let classification: String
     let designation: String
-    let average_height: Int    // in centimeters.
-    let average_lifespan: Int  // in years.
+    let average_height: Int?    // in centimeters.
+    let average_lifespan: Int?  // in years.
     let eye_colors: [String]?
     let hair_colors: [String]?
     let skin_colors: [String]?
@@ -29,18 +29,12 @@ struct Species : JSONModelObject {
         name = dict["name"] as String
         classification = dict["classification"] as String
         designation = dict["designation"] as String
-        average_height = (dict["average_height"] as String).toInt()!
-        average_lifespan = (dict["average_lifespan"] as String).toInt()!
+        average_height = (dict["average_height"] as String).toInt()
+        average_lifespan = (dict["average_lifespan"] as String).toInt()
         
-        func parseList(commaString: String) -> [String]? {
-            if (commaString == "none") { return nil }
-            let spaceSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-            return commaString.componentsSeparatedByString(",")
-                .map { $0.stringByTrimmingCharactersInSet(spaceSet) }
-        }
-        eye_colors = parseList(dict["eye_colors"] as String)
-        hair_colors = parseList(dict["hair_colors"] as String)
-        skin_colors = parseList(dict["skin_colors"] as String)
+        eye_colors = parseStringList(dict["eye_colors"] as String)
+        hair_colors = parseStringList(dict["hair_colors"] as String)
+        skin_colors = parseStringList(dict["skin_colors"] as String)
         
         language = dict["language"] as String
         homeworld = ResourceURL<Planet>(url:(dict["homeworld"] as String))

@@ -81,6 +81,6 @@ Those structs conforms to the `JSONModelObject` protocol described above, and al
 
 ## Demo App
 
-As of now, the app does not have any UI yet. My focuse were on the model, the `ResourceFetcher<T>` class, and how to use `PromiseKit` in that context to have a nice API with Promises, and some sample code to use it.
+As of now, the app does not have any UI yet. My focuse were on the model, the `ResourceURL<T>` class, and how to use `PromiseKit` in that context to have a nice API with Promises, and some sample code to use it.
 
-The sample code used so far is in `ViewController.swift`'s `viewDidLoad()`. This will soon be migrated into UnitTests, and I'll come up with some simple UI later. But that's not the priority, as the demo is aimed to demonstrate code and the Promises design patterns in Swift, not to create a nice-looking app.
+The sample code used so far is in `ViewController.swift`'s `viewDidLoad()`. This will eventually be migrated into UnitTests, and I'll come up with some simple UI later. But that's not the priority, as the demo is aimed to demonstrate code and the Promises design patterns in Swift, not to create a nice-looking app.

@@ -15,6 +15,13 @@ protocol JSONModelObject {
     var resourceInfo: ResourceInfo { get }
 }
 
+func parseStringList(commaSeparatedString: String) -> [String]? {
+    if (commaSeparatedString == "none") { return nil }
+    let spaceSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+    return commaSeparatedString.componentsSeparatedByString(",")
+        .map { $0.stringByTrimmingCharactersInSet(spaceSet) }
+}
+
 struct ResourceInfo {
     let url: String
     let created: Date

@@ -13,11 +13,11 @@ struct Planet : JSONModelObject {
     let resourceInfo: ResourceInfo
     
     let name: String
-    let diameter: Int        // In kilometers
-    let rotation_period: Int // The number of standard hours it takes for this planet to complete a single rotation on it's axis.
-    let orbital_period: Int  // The number of standard days it takes for this planet to complete a single orbit of it's local star.
+    let diameter: Int?        // In kilometers
+    let rotation_period: Int? // The number of standard hours it takes for this planet to complete a single rotation on it's axis.
+    let orbital_period: Int?  // The number of standard days it takes for this planet to complete a single orbit of it's local star.
     let gravity: Double
-    let population: Int
+    let population: Int?
     let climate: String
     let terrain: String
     let surface_water: Double // The percentage of the planet surface that is naturally occuring water or bodies of water.
@@ -26,11 +26,11 @@ struct Planet : JSONModelObject {
     
     init(dict: NSDictionary) {
         name = dict["name"] as String
-        diameter = (dict["diameter"] as String).toInt()!
-        rotation_period = (dict["rotation_period"] as String).toInt()!
-        orbital_period = (dict["orbital_period"] as String).toInt()!
+        diameter = (dict["diameter"] as String).toInt()
+        rotation_period = (dict["rotation_period"] as String).toInt()
+        orbital_period = (dict["orbital_period"] as String).toInt()
         gravity = (dict["gravity"] as NSString).doubleValue
-        population = (dict["population"] as String).toInt()!
+        population = (dict["population"] as String).toInt()
         climate = dict["climate"] as String
         terrain = dict["terrain"] as String
         surface_water = (dict["surface_water"] as NSString).doubleValue / 100 // The value express a percentage
