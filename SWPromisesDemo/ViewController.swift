@@ -61,7 +61,7 @@ class ViewController: UIViewController {
         //   then print the vehicle and all its pilots.
         func printVehicleWithPilots(vehicle: Vehicle) {
             when(vehicle.pilots.map { $0.fetch() }).then { (pilots :[Person]) -> Void in
-                println("-- Vehicle: \(vehicle.name), \(vehicle.model)")
+                println("-- Vehicle: \(vehicle.characteristics.name), \(vehicle.characteristics.model)")
                 for pilot in pilots { println("   '-- Pilot: \(pilot)") }
             }
         }

@@ -43,7 +43,7 @@ struct Planet : JSONModelObject {
 
 extension Planet : Printable {
     var description: String {
-        let popStr = (population != nil) ? "\(population)" : "N/A"
+        let popStr = (population != nil) ? "\(population!)" : "N/A"
         return "<Planet #\(resourceInfo.id!): \(name) (\(popStr) inhab.)>"
     }
 }
