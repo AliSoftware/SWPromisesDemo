@@ -26,20 +26,20 @@ struct Species : JSONModelObject {
     let films: [ResourceURL<Film>]
     
     init(dict: NSDictionary) {
-        name = dict["name"] as String
-        classification = dict["classification"] as String
-        designation = dict["designation"] as String
-        average_height = (dict["average_height"] as String).toInt()
-        average_lifespan = (dict["average_lifespan"] as String).toInt()
+        name = dict["name"] as! String
+        classification = dict["classification"] as! String
+        designation = dict["designation"] as! String
+        average_height = (dict["average_height"] as! String).toInt()
+        average_lifespan = (dict["average_lifespan"] as! String).toInt()
         
-        eye_colors = parseStringList(dict["eye_colors"] as String)
-        hair_colors = parseStringList(dict["hair_colors"] as String)
-        skin_colors = parseStringList(dict["skin_colors"] as String)
+        eye_colors = parseStringList(dict["eye_colors"] as! String)
+        hair_colors = parseStringList(dict["hair_colors"] as! String)
+        skin_colors = parseStringList(dict["skin_colors"] as! String)
         
-        language = dict["language"] as String
-        homeworld = ResourceURL<Planet>(url:(dict["homeworld"] as String))
-        people = (dict["people"] as [String]).map { ResourceURL<Person>(url: $0) }
-        films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
+        language = dict["language"] as! String
+        homeworld = ResourceURL<Planet>(url:(dict["homeworld"] as! String))
+        people = (dict["people"] as! [String]).map { ResourceURL<Person>(url: $0) }
+        films = (dict["films"] as! [String]).map { ResourceURL<Film>(url: $0) }
         
         resourceInfo = ResourceInfo(dict: dict)
     }

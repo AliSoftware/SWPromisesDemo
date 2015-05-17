@@ -16,13 +16,12 @@ class ViewController: UIViewController {
 
 //        fetchFirstPersonAndPrintVehicles()
         fetchFalconAndPrintPilotsHomeworld()
-
     }
-
+    
     private func fetchFalconAndPrintPilotsHomeworld() {
         let falcon = ResourceURL<Starship>(id: 10)
         falcon.fetch().then({ (ship: Starship) -> Promise<Person> in
-            let nbPilots = countElements(ship.pilots)
+            let nbPilots = count(ship.pilots)
             println("--> Starship found: \(ship) (\(nbPilots) pilots)")
             let aPilot = ship.pilots[0] // a ResourceURL<Pilot>
             return aPilot.fetch()

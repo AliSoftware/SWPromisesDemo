@@ -11,7 +11,7 @@ import Foundation
 protocol JSONModelObject {
     init(dict: NSDictionary)
     
-    class var apiEndPoint: String { get }
+    static var apiEndPoint: String { get }
     var resourceInfo: ResourceInfo { get }
 }
 
@@ -28,9 +28,9 @@ struct ResourceInfo {
     let edited: Date
 
     init(dict: NSDictionary) {
-        url = dict["url"] as String
-        created = Date(iso8601: dict["created"] as String)
-        edited = Date(iso8601: dict["edited"] as String)
+        url = dict["url"] as! String
+        created = Date(iso8601: dict["created"] as! String)
+        edited = Date(iso8601: dict["edited"] as! String)
     }
     
     var id: Int? {

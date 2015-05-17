@@ -1,6 +1,6 @@
 platform :ios, '8.0'
 
-# use_frameworks!
+use_frameworks!
 
 target 'SWPromisesDemo' do
   pod 'PromiseKit/Swift'

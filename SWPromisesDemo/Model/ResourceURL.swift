@@ -22,19 +22,19 @@ struct ResourceURL<T: JSONModelObject> {
     init(id: Int) { self.url = "\(baseurl)\(T.apiEndPoint)/\(id)/" }
 
     var cachedObject: T? {
-        return resourceURLCache[self.url] as T?
+        return resourceURLCache[self.url] as! T?
     }
     
     func fetch(useCache: Bool = true) -> Promise<T> {
         if useCache {
             if let object = cachedObject {
-                return Promise<T>(value: object as T)
+                return Promise<T>(object as T)
             }
         }
         return NSURLConnection.GET(self.url).then { (dict: NSDictionary) in
             let obj: T = T(dict: dict)
             resourceURLCache[self.url] = obj
-            return Promise<T>(value: obj)
+            return Promise<T>(obj)
         }
     }
     
@@ -46,11 +46,11 @@ struct ResourceURL<T: JSONModelObject> {
     static func fetchAll(page: Int = 1) -> Promise<(list:[T], hasNext:Bool)> {
         let url = baseurl + T.apiEndPoint + "/?page=\(page)"
         return NSURLConnection.GET(url).then { (dict: NSDictionary) in
-            let results = dict["results"] as [NSDictionary]
+            let results = dict["results"] as! [NSDictionary]
             let array = results.map { T(dict: $0) }
             for obj in array { resourceURLCache[obj.resourceInfo.url] = obj }
             let hasNext = dict["next"] != nil
-            return Promise<(list:[T], hasNext:Bool)>(value: (array, hasNext))
+            return Promise<(list:[T], hasNext:Bool)>((list: array, hasNext: hasNext))
         }
     }
 }

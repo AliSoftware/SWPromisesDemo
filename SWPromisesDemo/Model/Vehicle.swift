@@ -19,9 +19,9 @@ struct Vehicle : JSONModelObject {
     
     init(dict: NSDictionary) {
         characteristics = VehicleData(dict: dict)
-        vehicle_class = dict["vehicle_class"] as String
-        films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
-        pilots = (dict["pilots"] as [String]).map { ResourceURL<Person>(url: $0) }
+        vehicle_class = dict["vehicle_class"] as! String
+        films = (dict["films"] as! [String]).map { ResourceURL<Film>(url: $0) }
+        pilots = (dict["pilots"] as! [String]).map { ResourceURL<Person>(url: $0) }
         
         resourceInfo = ResourceInfo(dict: dict)
     }

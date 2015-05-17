@@ -21,11 +21,11 @@ struct Starship : JSONModelObject {
     
     init(dict: NSDictionary) {
         characteristics = VehicleData(dict: dict)
-        starship_class = dict["starship_class"] as String
-        hyperdrive_rating = (dict["hyperdrive_rating"] as NSString).doubleValue
-        megalight_speed = (dict["MGLT"] as NSString).doubleValue
-        films = (dict["films"] as [String]).map { ResourceURL<Film>(url: $0) }
-        pilots = (dict["pilots"] as [String]).map { ResourceURL<Person>(url: $0) }
+        starship_class = dict["starship_class"] as! String
+        hyperdrive_rating = (dict["hyperdrive_rating"] as! NSString).doubleValue
+        megalight_speed = (dict["MGLT"] as! NSString).doubleValue
+        films = (dict["films"] as! [String]).map { ResourceURL<Film>(url: $0) }
+        pilots = (dict["pilots"] as! [String]).map { ResourceURL<Person>(url: $0) }
         
         resourceInfo = ResourceInfo(dict: dict)
     }

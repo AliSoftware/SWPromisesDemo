@@ -21,15 +21,15 @@ struct VehicleData {
     let consumables: String
     
     init(dict: NSDictionary) {
-        name = dict["name"] as String
-        model = dict["model"] as String
-        manufacturer = parseStringList(dict["manufacturer"] as String)
-        length = (dict["length"] as String).toInt()
-        cost = (dict["cost_in_credits"] as String).toInt()
-        crew = (dict["crew"] as String).toInt()
-        passengers = (dict["passengers"] as String).toInt()
-        max_atmosphering_speed = (dict["max_atmosphering_speed"] as String).toInt()
-        cargo_capacity = (dict["cargo_capacity"] as String).toInt()
-        consumables = dict["consumables"] as String
+        name = dict["name"] as! String
+        model = dict["model"] as! String
+        manufacturer = parseStringList(dict["manufacturer"] as! String)
+        length = (dict["length"] as! String).toInt()
+        cost = (dict["cost_in_credits"] as! String).toInt()
+        crew = (dict["crew"] as! String).toInt()
+        passengers = (dict["passengers"] as! String).toInt()
+        max_atmosphering_speed = (dict["max_atmosphering_speed"] as! String).toInt()
+        cargo_capacity = (dict["cargo_capacity"] as! String).toInt()
+        consumables = dict["consumables"] as! String
     }
 }

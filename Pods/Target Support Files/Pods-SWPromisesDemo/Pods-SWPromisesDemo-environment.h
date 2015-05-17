@@ -30,9 +30,39 @@
 #define COCOAPODS_VERSION_MINOR_OMGHTTPURLRQ_UserAgent 1
 #define COCOAPODS_VERSION_PATCH_OMGHTTPURLRQ_UserAgent 0
 
+// PromiseKit/CorePromise
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_CorePromise
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_CorePromise 2
+#define COCOAPODS_VERSION_MINOR_PromiseKit_CorePromise 0
+#define COCOAPODS_VERSION_PATCH_PromiseKit_CorePromise 0
+
+// PromiseKit/Foundation
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_Foundation
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_Foundation 2
+#define COCOAPODS_VERSION_MINOR_PromiseKit_Foundation 0
+#define COCOAPODS_VERSION_PATCH_PromiseKit_Foundation 0
+
 // PromiseKit/Swift
 #define COCOAPODS_POD_AVAILABLE_PromiseKit_Swift
-#define COCOAPODS_VERSION_MAJOR_PromiseKit_Swift 1
-#define COCOAPODS_VERSION_MINOR_PromiseKit_Swift 3
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_Swift 2
+#define COCOAPODS_VERSION_MINOR_PromiseKit_Swift 0
 #define COCOAPODS_VERSION_PATCH_PromiseKit_Swift 0
+
+// PromiseKit/Swift/Foundation
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_Swift_Foundation
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_Swift_Foundation 2
+#define COCOAPODS_VERSION_MINOR_PromiseKit_Swift_Foundation 0
+#define COCOAPODS_VERSION_PATCH_PromiseKit_Swift_Foundation 0
+
+// PromiseKit/Swift/UIKit
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_Swift_UIKit
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_Swift_UIKit 2
+#define COCOAPODS_VERSION_MINOR_PromiseKit_Swift_UIKit 0
+#define COCOAPODS_VERSION_PATCH_PromiseKit_Swift_UIKit 0
+
+// PromiseKit/UIKit
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_UIKit
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_UIKit 2
+#define COCOAPODS_VERSION_MINOR_PromiseKit_UIKit 0
+#define COCOAPODS_VERSION_PATCH_PromiseKit_UIKit 0
 
